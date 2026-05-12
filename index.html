@@ -1,0 +1,1478 @@
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joe | Web Designer &amp; Developer</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Oswald:wght@300;400;500&amp;display=swap" rel="stylesheet">
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+      :root {
+        --c-bg: #F3EFEA;
+        --c-dark: #5C1616;
+      }
+      body {
+        background-color: var(--c-bg);
+        color: var(--c-dark);
+        font-family: 'Inter', sans-serif;
+        margin: 0;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      ::selection {
+        background-color: var(--c-dark);
+        color: var(--c-bg);
+      }
+      .font-oswald {
+        font-family: 'Oswald', sans-serif;
+      }
+      .wrapper {
+        position: relative;
+        z-index: 10;
+        background-color: var(--c-bg);
+        margin-bottom: 100vh;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      }
+      .word-wrap {
+        display: inline-block;
+        overflow: hidden;
+        vertical-align: top;
+        padding-bottom: 0.1em;
+      }
+      .word-inner {
+        display: inline-block;
+        transform: translateY(110%);
+      }
+      .loader {
+        position: fixed;
+        inset: 0;
+        background: #FFFFFF; /* White page */
+        z-index: 10000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: var(--c-dark); /* Red text */
+      }
+      .noise-overlay {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 9000;
+        opacity: 0.03;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E");
+      }
+
+      /* Slider Custom Animations */
+      .slider-item {
+        transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease, filter 0.8s ease, z-index 0s 0.2s;
+      }
+      .slider-overlay {
+        transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+      }
+    </style>
+
+    <style id="marquee-animations">
+      @keyframes marquee {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+      }
+      @keyframes marquee-reverse {
+        0% { transform: translateX(-50%); }
+        100% { transform: translateX(0); }
+      }
+      .animate-marquee {
+        display: flex;
+        width: max-content;
+        animation: marquee 30s linear infinite;
+      }
+      .animate-marquee-reverse {
+        display: flex;
+        width: max-content;
+        animation: marquee-reverse 30s linear infinite;
+      }
+    </style>
+
+    <link id="all-fonts-link-font-oswald" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&amp;display=swap">
+    <style id="all-fonts-style-font-oswald">
+      .font-oswald { font-family: 'Oswald', sans-serif !important; }
+    </style>
+  </head>
+  <body class="bg-[#F3EFEA] text-[#5C1616] font-sans antialiased overflow-x-hidden">
+    <!-- Noise -->
+    <div class="noise-overlay"></div>
+
+    <!-- Navigation Header -->
+    <header class="absolute top-0 left-0 w-full p-6 z-50 flex justify-between items-center text-[#F3EFEA] pointer-events-none">
+      <div class="text-xl font-normal tracking-tight font-oswald pointer-events-auto w-1/3 flex-shrink-0">
+        JOE.
+      </div>
+      <div class="w-1/3 justify-center pointer-events-auto hidden md:flex">
+        <a href="#contact" class="text-xs font-normal uppercase tracking-widest px-6 py-2 border border-white/20 rounded-full hover:bg-white hover:text-[#5C1616] transition-colors backdrop-blur-sm bg-white/5">
+          Contact
+        </a>
+      </div>
+
+      <div class="w-1/3 flex justify-end pointer-events-auto">
+        <button onclick="document.getElementById('mobile-menu').classList.remove('translate-x-full')" class="p-2 focus:outline-none text-[#F3EFEA]">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="4" x2="20" y1="12" y2="12"></line>
+            <line x1="4" x2="20" y1="6" y2="6"></line>
+            <line x1="4" x2="20" y1="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </header>
+    <div id="mobile-menu" class="fixed inset-0 bg-[#5C1616] z-[100] flex flex-col items-center justify-center gap-8 text-[#F3EFEA] transition-transform duration-500 translate-x-full pointer-events-auto">
+      <button onclick="document.getElementById('mobile-menu').classList.add('translate-x-full')" class="absolute top-6 right-6 p-2 focus:outline-none">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 6 6 18"></path>
+          <path d="m6 6 12 12"></path>
+        </svg>
+      </button>
+      <a href="#services" onclick="document.getElementById('mobile-menu').classList.add('translate-x-full')" class="text-3xl font-oswald uppercase nav-link hover:opacity-70 transition-opacity">
+        Services
+      </a>
+      <a href="#work" onclick="document.getElementById('mobile-menu').classList.add('translate-x-full')" class="text-3xl font-oswald uppercase nav-link hover:opacity-70 transition-opacity">
+        Work
+      </a>
+      <a href="#faq" onclick="document.getElementById('mobile-menu').classList.add('translate-x-full')" class="text-3xl font-oswald uppercase nav-link hover:opacity-70 transition-opacity">
+        FAQ
+      </a>
+      <a href="#contact" class="text-3xl font-oswald uppercase hover:opacity-70 transition-opacity px-8 py-3 border border-white/20 rounded-full mt-4 md:hidden" onclick="document.getElementById('mobile-menu').classList.add('translate-x-full')">
+        Contact
+      </a>
+    </div>
+
+    <!-- Preloader -->
+    <div class="loader">
+      <div class="loader-text md:text-6xl text-4xl font-medium tracking-tight font-oswald">
+        JOE.
+      </div>
+    </div>
+
+    <div class="wrapper text-red-950">
+      <!-- Hero Section -->
+      <section class="min-h-screen flex flex-col bg-cover bg-center bg-black/60 bg-blend-multiply pt-20 pr-6 pl-6 relative items-center justify-center bg-[url(https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/bc24ae30-0309-4936-9bef-83fab625a439_1600w.png)]">
+        <div class="relative z-10 text-center w-full max-w-5xl">
+          <div class="mb-6 opacity-0 hero-fade"></div>
+          <h1 class="text-[12vw] md:text-[8vw] leading-[0.9] hero-text overflow-hidden font-normal text-[#F3EFEA] tracking-tighter">
+            <span class="block text-zinc-200/70 opacity-70 translate-y-full font-oswald">
+              WEBSITE
+            </span>
+          </h1>
+          <h1 class="text-[12vw] md:text-[8vw] leading-[0.9] font-normal tracking-tighter hero-text overflow-hidden text-[#F3EFEA]/70">
+            <span class="block text-red-700 opacity-50 translate-y-full font-oswald">
+              DESIGNER
+            </span>
+          </h1>
+          <p class="md:text-lg hero-fade text-base font-light text-[#F3EFEA]/90 tracking-wide opacity-80 max-w-md mt-10 mx-auto">
+            I'm Joe, a Website Designer &amp; Developer based in Dubai, creating
+            precise, accessible, and high-performance digital experiences.
+          </p>
+        </div>
+        <div class="absolute bottom-10 opacity-0 hero-fade flex flex-col items-center gap-3 pointer-events-none">
+          <span class="text-xs font-normal uppercase tracking-widest text-[#F3EFEA]/80">
+            Scroll
+          </span>
+          <i data-lucide="arrow-down" stroke-width="1.5" class="w-5 h-5 text-[#F3EFEA]/80 animate-bounce"></i>
+        </div>
+      </section>
+
+      <!-- Intro Section -->
+      <section class="py-32 px-6 md:px-20 grid md:grid-cols-2 gap-16 max-w-7xl mx-auto border-t border-[#5C1616]/10">
+        <div>
+          <h2 class="md:text-4xl leading-tight split-animate text-3xl font-normal tracking-tight">
+            <span class="word-wrap">
+              <span class="word-inner">Designing&nbsp;</span>
+            </span>
+            <span class="word-wrap">
+              <span class="word-inner">websites&nbsp;</span>
+            </span>
+            <span class="word-wrap">
+              <span class="word-inner">that&nbsp;</span>
+            </span>
+            <span class="word-wrap">
+              <span class="word-inner">feel&nbsp;</span>
+            </span>
+            <span class="word-wrap">
+              <span class="word-inner">modern,&nbsp;</span>
+            </span>
+            <span class="word-wrap">
+              <span class="word-inner">clear,&nbsp;</span>
+            </span>
+            <span class="word-wrap">
+              <span class="word-inner">and&nbsp;</span>
+            </span>
+            <span class="word-wrap">
+              <span class="word-inner">built&nbsp;</span>
+            </span>
+            <span class="word-wrap">
+              <span class="word-inner">to&nbsp;</span>
+            </span>
+            <span class="word-wrap">
+              <span class="word-inner">perform.&nbsp;</span>
+            </span>
+          </h2>
+        </div>
+        <div class="text-lg font-light leading-relaxed text-[#5C1616]/80 flex flex-col justify-between">
+          <p class="mb-8 split-animate">
+            <span class="word-wrap">
+              <span class="word-inner">I&nbsp;</span>
+            </span>
+            <span class="word-wrap">
+              <span class="word-inner">create&nbsp;</span>
+            </span>
+            <span class="word-wrap">
+              <span class="word-inner">clean,&nbsp;</span>
+            </span>
+            <span class="word-wrap">
+              <span class="word-inner">user-focused&nbsp;</span>
+            </span>
+            <span class="word-wrap">
+              <span class="word-inner">websites&nbsp;</span>
+            </span>
+            <span class="word-wrap">
+              <span class="word-inner">that&nbsp;</span>
+            </span>
+            <span class="word-wrap">
+              <span class="word-inner">combine&nbsp;</span>
+            </span>
+            <span class="word-wrap">
+              <span class="word-inner">strong&nbsp;</span>
+            </span>
+            <span class="word-wrap">
+              <span class="word-inner">visuals&nbsp;</span>
+            </span>
+            <span class="word-wrap">
+              <span class="word-inner">with&nbsp;</span>
+            </span>
+            <span class="word-wrap">
+              <span class="word-inner">smooth&nbsp;</span>
+            </span>
+            <span class="word-wrap">
+              <span class="word-inner">functionality.&nbsp;</span>
+            </span>
+            <span class="word-wrap">
+              <span class="word-inner">Every&nbsp;</span>
+            </span>
+            <span class="word-wrap">
+              <span class="word-inner">project&nbsp;</span>
+            </span>
+            <span class="word-wrap">
+              <span class="word-inner">is&nbsp;</span>
+            </span>
+            <span class="word-wrap">
+              <span class="word-inner">designed&nbsp;</span>
+            </span>
+            <span class="word-wrap">
+              <span class="word-inner">to&nbsp;</span>
+            </span>
+            <span class="word-wrap">
+              <span class="word-inner">help&nbsp;</span>
+            </span>
+            <span class="word-wrap">
+              <span class="word-inner">brands&nbsp;</span>
+            </span>
+            <span class="word-wrap">
+              <span class="word-inner">stand&nbsp;</span>
+            </span>
+            <span class="word-wrap">
+              <span class="word-inner">out,&nbsp;</span>
+            </span>
+            <span class="word-wrap">
+              <span class="word-inner">build&nbsp;</span>
+            </span>
+            <span class="word-wrap">
+              <span class="word-inner">trust,&nbsp;</span>
+            </span>
+            <span class="word-wrap">
+              <span class="word-inner">and&nbsp;</span>
+            </span>
+            <span class="word-wrap">
+              <span class="word-inner">deliver&nbsp;</span>
+            </span>
+            <span class="word-wrap">
+              <span class="word-inner">a&nbsp;</span>
+            </span>
+            <span class="word-wrap">
+              <span class="word-inner">better&nbsp;</span>
+            </span>
+            <span class="word-wrap">
+              <span class="word-inner">experience&nbsp;</span>
+            </span>
+            <span class="word-wrap">
+              <span class="word-inner">across&nbsp;</span>
+            </span>
+            <span class="word-wrap">
+              <span class="word-inner">all&nbsp;</span>
+            </span>
+            <span class="word-wrap">
+              <span class="word-inner">devices.&nbsp;</span>
+            </span>
+          </p>
+          <div class="flex flex-wrap gap-4 md:gap-12 text-xs uppercase tracking-widest font-normal text-[#5C1616] mt-4">
+            <a href="#services" class="nav-link hover:opacity-60 transition-opacity">
+              Web Design
+            </a>
+            <a href="#services" class="nav-link hover:opacity-60 transition-opacity">
+              Logo Design
+            </a>
+            <a href="#services" class="nav-link hover:opacity-60 transition-opacity">
+              SEO &amp; GEO
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Services Section (Stack Style) -->
+      <section class="overflow-hidden text-white bg-red-950 z-30 pt-32 pb-32 relative" id="work">
+        <!-- Background Ambient Glow -->
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(220,38,38,0.15)_0%,transparent_70%)] pointer-events-none"></div>
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22 opacity=%220.04%22/%3E%3C/svg%3E')] pointer-events-none mix-blend-overlay"></div>
+
+        <div class="text-center mb-20 relative z-10 px-6">
+          <h2 class="text-4xl md:text-6xl font-normal tracking-tight font-oswald">
+            Latest Projects
+          </h2>
+        </div>
+
+        <div class="min-h-[450px] md:h-[65vh] md:min-h-[600px] flex [perspective:1500px] [transform-style:preserve-3d] md:px-0 w-full h-[50vh] max-w-[1400px] mr-auto ml-auto pr-4 pl-4 relative items-center justify-center">
+          <!-- Slide 1 -->
+          <div class="slider-item absolute w-[85%] md:w-[60%] h-[90%] rounded-2xl md:rounded-3xl overflow-hidden cursor-pointer bg-neutral-900 border border-white/5" data-index="0" style="z-index: 30; pointer-events: auto; filter: brightness(1);">
+            <img src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/0a0875df-3071-4fe1-b80b-96f32cd36f61_1600w.png" class="w-full h-full object-cover" alt="Salvadora Landscape">
+
+            <div class="slider-overlay absolute bottom-6 md:bottom-10 left-1/2 -translate-x-1/2 w-[90%] max-w-md bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl p-6 flex flex-col items-center gap-5 opacity-0 translate-y-4 pointer-events-none" style=" pointer-events: auto;">
+              <h3 class="md:text-3xl text-2xl font-normal text-white tracking-tight font-oswald">
+                LUXURY WEBSITE
+              </h3>
+              <div class="flex gap-2 text-xs text-white/80 font-light">
+                <span class="px-3 py-1 rounded-full border border-white/10 bg-white/5">
+                  Design
+                </span>
+                <span class="px-3 py-1 rounded-full border border-white/10 bg-white/5">
+                  UX/UI
+                </span>
+                <span class="px-3 py-1 rounded-full border border-white/10 bg-white/5">
+                  Web Dev
+                </span>
+              </div>
+              <a href="https://salvadora-landsape.aura.build/" target="_blank" class="flex justify-center items-center gap-2 hover:bg-white hover:text-black transition-colors text-sm font-normal text-white tracking-wide bg-white/10 w-full rounded-xl mt-2 pt-3 pr-6 pb-3 pl-6">
+                View Live Site
+                <i data-lucide="arrow-up-right" stroke-width="1.5" class="w-4 h-4"></i>
+              </a>
+            </div>
+
+            <button class="slider-nav prev-btn -translate-y-1/2 flex hover:bg-white/10 transition-colors z-20 bg-black/40 opacity-0 w-12 h-12 border-white/10 border rounded-full absolute top-1/2 left-4 backdrop-blur-md items-center justify-center" style=" pointer-events: auto;">
+              <i data-lucide="chevron-left" stroke-width="1.5" class="text-white"></i>
+            </button>
+            <button class="slider-nav next-btn absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-black/40 border border-white/10 rounded-full flex items-center justify-center backdrop-blur-md opacity-0 hover:bg-white/10 transition-colors z-20" style=" pointer-events: auto;">
+              <i data-lucide="chevron-right" stroke-width="1.5" class="text-white"></i>
+            </button>
+          </div>
+
+          <!-- Slide 2 -->
+          <div class="slider-item absolute w-[85%] md:w-[60%] h-[90%] rounded-2xl md:rounded-3xl overflow-hidden cursor-pointer bg-neutral-900 border border-white/5" data-index="1" style="z-index: 20; pointer-events: auto; filter: brightness(0.5);">
+            <img src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/dbd67797-0070-4ea5-bd96-2d638bd92c5c_1600w.png" class="w-full h-full object-cover" alt="Blocks Interior">
+
+            <div class="slider-overlay absolute bottom-6 md:bottom-10 left-1/2 -translate-x-1/2 w-[90%] max-w-md bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl p-6 flex flex-col items-center gap-5 opacity-0 translate-y-4 pointer-events-none" style=" pointer-events: none;">
+              <h3 class="md:text-3xl text-2xl font-normal text-white tracking-tight font-oswald">
+                MODERN WEBSITE
+              </h3>
+              <div class="flex gap-2 text-xs text-white/80 font-light">
+                <span class="px-3 py-1 rounded-full border border-white/10 bg-white/5">
+                  Design
+                </span>
+                <span class="px-3 py-1 rounded-full border border-white/10 bg-white/5">
+                  Web Dev
+                </span>
+              </div>
+              <a href="https://blocksinteriordecoration.com" target="_blank" class="w-full flex justify-center items-center gap-2 mt-2 bg-white/10 hover:bg-white text-white hover:text-black transition-colors px-6 py-3 rounded-xl text-sm font-normal tracking-wide">
+                View Live Site
+                <i data-lucide="arrow-up-right" stroke-width="1.5" class="w-4 h-4"></i>
+              </a>
+            </div>
+
+            <button class="slider-nav prev-btn -translate-y-1/2 flex hover:bg-white/10 transition-colors z-20 bg-black/40 opacity-0 w-12 h-12 border-white/10 border rounded-full absolute top-1/2 left-4 backdrop-blur-md items-center justify-center" style=" pointer-events: none;">
+              <i data-lucide="chevron-left" stroke-width="1.5" class="text-white"></i>
+            </button>
+            <button class="slider-nav next-btn absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-black/40 border border-white/10 rounded-full flex items-center justify-center backdrop-blur-md opacity-0 hover:bg-white/10 transition-colors z-20" style=" pointer-events: none;">
+              <i data-lucide="chevron-right" stroke-width="1.5" class="text-white"></i>
+            </button>
+          </div>
+
+          <!-- Slide 3 -->
+          <div class="slider-item absolute w-[85%] md:w-[60%] h-[90%] rounded-2xl md:rounded-3xl overflow-hidden cursor-pointer bg-neutral-900 border border-white/5" data-index="2" style="z-index: 20; pointer-events: auto; filter: brightness(0.5);">
+            <img src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/3c532f05-bb27-4fb3-af13-35eaff34cae6_1600w.png" class="w-full h-full object-cover" alt="Amwaj MEP">
+
+            <div class="slider-overlay absolute bottom-6 md:bottom-10 left-1/2 -translate-x-1/2 w-[90%] max-w-md bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl p-6 flex flex-col items-center gap-5 opacity-0 translate-y-4 pointer-events-none" style=" pointer-events: none;">
+              <h3 class="md:text-3xl text-2xl font-normal text-white tracking-tight font-oswald">
+                PROFESSIONAL WEBSITE
+              </h3>
+              <div class="flex gap-2 text-xs text-white/80 font-light">
+                <span class="px-3 py-1 rounded-full border border-white/10 bg-white/5">
+                  UX/UI
+                </span>
+                <span class="px-3 py-1 rounded-full border border-white/10 bg-white/5">
+                  Web Dev
+                </span>
+              </div>
+              <a href="https://amwaj-aldana-meb1.aura.build/" target="_blank" class="w-full flex justify-center items-center gap-2 mt-2 bg-white/10 hover:bg-white text-white hover:text-black transition-colors px-6 py-3 rounded-xl text-sm font-normal tracking-wide">
+                View Live Site
+                <i data-lucide="arrow-up-right" stroke-width="1.5" class="w-4 h-4"></i>
+              </a>
+            </div>
+
+            <button class="slider-nav prev-btn -translate-y-1/2 flex hover:bg-white/10 transition-colors z-20 bg-black/40 opacity-0 w-12 h-12 border-white/10 border rounded-full absolute top-1/2 left-4 backdrop-blur-md items-center justify-center" style=" pointer-events: none;">
+              <i data-lucide="chevron-left" stroke-width="1.5" class="text-white"></i>
+            </button>
+            <button class="slider-nav next-btn absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-black/40 border border-white/10 rounded-full flex items-center justify-center backdrop-blur-md opacity-0 hover:bg-white/10 transition-colors z-20" style=" pointer-events: none;">
+              <i data-lucide="chevron-right" stroke-width="1.5" class="text-white"></i>
+            </button>
+          </div>
+        </div>
+      </section>
+      <section id="services" class="py-32 bg-[#F3EFEA] relative z-20">
+        <div class="text-center mb-24 px-6 relative z-10">
+          <h2 class="text-4xl md:text-5xl font-normal tracking-tight font-oswald text-[#5C1616]">
+            Services
+          </h2>
+          <p class="text-base mt-4 opacity-70 font-light text-[#5C1616]">
+            Comprehensive solutions for your brand.
+          </p>
+        </div>
+
+        <div class="w-full max-w-[1200px] mx-auto relative pb-[10vh] px-4 md:px-0">
+          <!-- Service 1 -->
+          <div class="card-item sticky top-[15vh] w-full flex items-start justify-center mb-[8vh] z-[1]">
+            <div class="card-inner w-[95%] bg-white text-[#5C1616] border border-[#5C1616]/10 rounded-3xl relative overflow-hidden grid md:grid-cols-[1fr_1.3fr] shadow-[0_20px_40px_-10px_rgba(92,22,22,0.1)] origin-top" style=" filter: brightness(0.9);">
+              <div class="p-10 md:p-16 flex flex-col justify-center z-10 border-b md:border-b-0 md:border-r border-[#5C1616]/10 bg-white">
+                <div class="flex items-center justify-between mb-12 opacity-40">
+                  <i data-lucide="monitor-smartphone" stroke-width="1.5" class="w-6 h-6"></i>
+                  <span class="text-xs uppercase tracking-widest font-normal">
+                    01
+                  </span>
+                </div>
+                <h3 class="text-3xl md:text-4xl font-normal tracking-tight font-oswald mb-6">
+                  Web Design &amp; Development
+                </h3>
+                <p class="leading-relaxed text-base md:text-lg font-light text-[#5C1616]/70 mb-8">
+                  Crafting intuitive, highly functional websites. Focused on
+                  user experience, seamless navigation, and engaging layouts to
+                  elevate your digital presence.
+                </p>
+                <ul class="flex flex-col gap-4 text-base font-light text-[#5C1616]/80">
+                  <li class="flex items-center gap-3">
+                    <i data-lucide="check" stroke-width="1.5" class="w-4 h-4 opacity-40"></i>
+                    Website Design
+                  </li>
+                  <li class="flex items-center gap-3">
+                    <i data-lucide="check" stroke-width="1.5" class="w-4 h-4 opacity-40"></i>
+                    Website Development
+                  </li>
+                  <li class="flex items-center gap-3">
+                    <i data-lucide="check" stroke-width="1.5" class="w-4 h-4 opacity-40"></i>
+                    Responsive Layouts
+                  </li>
+                </ul>
+              </div>
+              <div class="relative w-full h-[300px] md:h-full bg-[#EAE5DE] overflow-hidden group">
+                <img src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/ff3cee3d-d2ae-4c6b-af74-2825f88e2bab_1600w.png" class="transition-transform duration-[1.5s] ease-out group-hover:scale-105 w-full h-full object-cover" alt="Design Service">
+              </div>
+            </div>
+          </div>
+
+          <!-- Service 2 -->
+          <div class="card-item sticky top-[15vh] w-full flex items-start justify-center mb-[8vh] z-[2]">
+            <div class="card-inner w-[95%] bg-white text-[#5C1616] border border-[#5C1616]/10 rounded-3xl relative overflow-hidden grid md:grid-cols-[1fr_1.3fr] shadow-[0_20px_40px_-10px_rgba(92,22,22,0.1)] origin-top" style=" filter: brightness(0.9);">
+              <div class="p-10 md:p-16 flex flex-col justify-center z-10 border-b md:border-b-0 md:border-r border-[#5C1616]/10 bg-white">
+                <div class="flex items-center justify-between mb-12 opacity-40">
+                  <i data-lucide="pen-tool" stroke-width="1.5" class="w-6 h-6"></i>
+                  <span class="text-xs uppercase tracking-widest font-normal">
+                    02
+                  </span>
+                </div>
+                <h3 class="text-3xl md:text-4xl font-normal tracking-tight font-oswald mb-6">
+                  Logo Design
+                </h3>
+                <p class="leading-relaxed text-base md:text-lg font-light text-[#5C1616]/70 mb-8">
+                  Creating distinct, memorable, and timeless brand identities. I
+                  design logos that perfectly capture the essence of your
+                  business and resonate with your audience.
+                </p>
+                <ul class="flex flex-col gap-4 text-base font-light text-[#5C1616]/80">
+                  <li class="flex items-center gap-3">
+                    <i data-lucide="check" stroke-width="1.5" class="w-4 h-4 opacity-40"></i>
+                    Brand Identity
+                  </li>
+                  <li class="flex items-center gap-3">
+                    <i data-lucide="check" stroke-width="1.5" class="w-4 h-4 opacity-40"></i>
+                    Logo Creation
+                  </li>
+                  <li class="flex items-center gap-3">
+                    <i data-lucide="check" stroke-width="1.5" class="w-4 h-4 opacity-40"></i>
+                    Brand Guidelines
+                  </li>
+                </ul>
+              </div>
+              <div class="relative w-full h-[300px] md:h-full bg-[#EAE5DE] overflow-hidden group">
+                <img src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/746f6100-85e4-43b2-95d7-e5c38640533e_1600w.png" class="transition-transform duration-[1.5s] ease-out group-hover:scale-105 w-full h-full object-cover" alt="Logo Design Service">
+              </div>
+            </div>
+          </div>
+
+          <!-- Service 3 -->
+          <div class="card-item sticky top-[15vh] w-full flex items-start justify-center mb-[8vh] z-[3]">
+            <div class="card-inner w-[95%] bg-white text-[#5C1616] border border-[#5C1616]/10 rounded-3xl relative overflow-hidden grid md:grid-cols-[1fr_1.3fr] shadow-[0_20px_40px_-10px_rgba(92,22,22,0.1)] origin-top">
+              <div class="p-10 md:p-16 flex flex-col justify-center z-10 border-b md:border-b-0 md:border-r border-[#5C1616]/10 bg-white">
+                <div class="flex items-center justify-between mb-12 opacity-40">
+                  <i data-lucide="globe" stroke-width="1.5" class="w-6 h-6"></i>
+                  <span class="text-xs uppercase tracking-widest font-normal">
+                    03
+                  </span>
+                </div>
+                <h3 class="text-3xl md:text-4xl font-normal tracking-tight font-oswald mb-6">
+                  SEO &amp; GEO
+                </h3>
+                <p class="leading-relaxed text-base md:text-lg font-light text-[#5C1616]/70 mb-8">
+                  Optimizing your digital presence for local and global reach. I
+                  implement effective SEO and GEO strategies to improve
+                  visibility and drive organic traffic.
+                </p>
+                <ul class="flex flex-col gap-4 text-base font-light text-[#5C1616]/80">
+                  <li class="flex items-center gap-3">
+                    <i data-lucide="check" stroke-width="1.5" class="w-4 h-4 opacity-40"></i>
+                    Search Engine Optimization
+                  </li>
+                  <li class="flex items-center gap-3">
+                    <i data-lucide="check" stroke-width="1.5" class="w-4 h-4 opacity-40"></i>
+                    Local GEO Targeting
+                  </li>
+                  <li class="flex items-center gap-3">
+                    <i data-lucide="check" stroke-width="1.5" class="w-4 h-4 opacity-40"></i>
+                    Traffic Growth Strategy
+                  </li>
+                </ul>
+              </div>
+              <div class="relative w-full h-[300px] md:h-full bg-[#EAE5DE] overflow-hidden group">
+                <img src="https://images.unsplash.com/photo-1686061594183-8c864f508b00?w=1600&amp;q=80" class="transition-transform duration-[1.5s] ease-out group-hover:scale-105 w-full h-full object-cover" alt="Strategy Service">
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Work Section (3D Slider) -->
+
+      <!-- FAQ Section -->
+      <section id="reviews" class="w-full bg-[#0a0a0a] py-32 z-30 relative overflow-hidden border-t border-white/5 border-b border-b-white/5">
+        <div class="mb-20 text-center px-6 relative z-10">
+          <h2 class="text-4xl md:text-5xl font-normal tracking-tight font-oswald text-white">
+            Love from my Clients
+          </h2>
+          <p class="text-base mt-4 text-white/50 font-light">
+            Continuous reviews scrolling in both directions.
+          </p>
+        </div>
+
+        <div class="relative w-full flex flex-col gap-6" style="mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);">
+          <!-- Row 1 -->
+          <div class="hover:[animation-play-state:running] animate-marquee hover:[animation-play-state:paused]">
+            <!-- Set 1 -->
+            <div class="w-[320px] md:w-[400px] flex-shrink-0 bg-[#161616]/80 backdrop-blur-sm border border-white/5 rounded-2xl p-6 md:p-8 flex flex-col gap-5 mx-3 transition-colors hover:bg-[#161616]">
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <h4 class="text-white font-normal text-lg font-oswald tracking-wide">
+                    Arlene McCoy
+                  </h4>
+                  <div class="mt-2 flex items-center gap-1 text-amber-300/90" aria-label="5 out of 5 stars">
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                  </div>
+                </div>
+              </div>
+              <p class="text-white/60 text-sm font-light leading-relaxed flex-grow mt-4">
+                "The level of creativity and professionalism exceeded anything
+                we had hoped for. The final product was delivered on time and
+                has received great feedback."
+              </p>
+            </div>
+            <div class="w-[320px] md:w-[400px] flex-shrink-0 bg-[#161616]/80 backdrop-blur-sm border border-white/5 rounded-2xl p-6 md:p-8 flex flex-col gap-5 mx-3 transition-colors hover:bg-[#161616]">
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <h4 class="text-white font-normal text-lg font-oswald tracking-wide">
+                    Jane Cooper
+                  </h4>
+                  <div class="mt-2 flex items-center gap-1 text-amber-300/90" aria-label="5 out of 5 stars">
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                  </div>
+                </div>
+              </div>
+              <p class="text-white/60 text-sm font-light leading-relaxed flex-grow mt-4">
+                "The website design was fantastic and perfectly aligned with our
+                brand. Joe was also incredibly responsive and helpful throughout
+                the project."
+              </p>
+            </div>
+            <div class="w-[320px] md:w-[400px] flex-shrink-0 bg-[#161616]/80 backdrop-blur-sm border border-white/5 rounded-2xl p-6 md:p-8 flex flex-col gap-5 mx-3 transition-colors hover:bg-[#161616]">
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <h4 class="text-white font-normal text-lg font-oswald tracking-wide">
+                    Ronald Richards
+                  </h4>
+                  <div class="mt-2 flex items-center gap-1 text-amber-300/90" aria-label="5 out of 5 stars">
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                  </div>
+                </div>
+              </div>
+              <p class="text-white/60 text-sm font-light leading-relaxed flex-grow mt-4">
+                "Not only did Joe build us a fantastic website, but he also
+                provided valuable support throughout the project. Highly
+                recommended!"
+              </p>
+            </div>
+            <div class="w-[320px] md:w-[400px] flex-shrink-0 bg-[#161616]/80 backdrop-blur-sm border border-white/5 rounded-2xl p-6 md:p-8 flex flex-col gap-5 mx-3 transition-colors hover:bg-[#161616]">
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <h4 class="text-white font-normal text-lg font-oswald tracking-wide">
+                    Robert Fox
+                  </h4>
+                  <div class="mt-2 flex items-center gap-1 text-amber-300/90" aria-label="5 out of 5 stars">
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                  </div>
+                </div>
+              </div>
+              <p class="text-white/60 text-sm font-light leading-relaxed flex-grow mt-4">
+                "The final product was outstanding! The attention to detail and
+                the creative approach really brought our vision to life."
+              </p>
+            </div>
+            <!-- Set 2 (Duplicate for smooth scroll) -->
+            <div class="w-[320px] md:w-[400px] flex-shrink-0 bg-[#161616]/80 backdrop-blur-sm border border-white/5 rounded-2xl p-6 md:p-8 flex flex-col gap-5 mx-3 transition-colors hover:bg-[#161616]">
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <h4 class="text-white font-normal text-lg font-oswald tracking-wide">
+                    Arlene McCoy
+                  </h4>
+                  <div class="mt-2 flex items-center gap-1 text-amber-300/90" aria-label="5 out of 5 stars">
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                  </div>
+                </div>
+              </div>
+              <p class="text-white/60 text-sm font-light leading-relaxed flex-grow mt-4">
+                "The level of creativity and professionalism exceeded anything
+                we had hoped for. The final product was delivered on time and
+                has received great feedback."
+              </p>
+            </div>
+            <div class="w-[320px] md:w-[400px] flex-shrink-0 bg-[#161616]/80 backdrop-blur-sm border border-white/5 rounded-2xl p-6 md:p-8 flex flex-col gap-5 mx-3 transition-colors hover:bg-[#161616]">
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <h4 class="text-white font-normal text-lg font-oswald tracking-wide">
+                    Jane Cooper
+                  </h4>
+                  <div class="mt-2 flex items-center gap-1 text-amber-300/90" aria-label="5 out of 5 stars">
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                  </div>
+                </div>
+              </div>
+              <p class="text-white/60 text-sm font-light leading-relaxed flex-grow mt-4">
+                "The website design was fantastic and perfectly aligned with our
+                brand. Joe was also incredibly responsive and helpful throughout
+                the project."
+              </p>
+            </div>
+            <div class="w-[320px] md:w-[400px] flex-shrink-0 bg-[#161616]/80 backdrop-blur-sm border border-white/5 rounded-2xl p-6 md:p-8 flex flex-col gap-5 mx-3 transition-colors hover:bg-[#161616]">
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <h4 class="text-white font-normal text-lg font-oswald tracking-wide">
+                    Ronald Richards
+                  </h4>
+                  <div class="mt-2 flex items-center gap-1 text-amber-300/90" aria-label="5 out of 5 stars">
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                  </div>
+                </div>
+              </div>
+              <p class="text-white/60 text-sm font-light leading-relaxed flex-grow mt-4">
+                "Not only did Joe build us a fantastic website, but he also
+                provided valuable support throughout the project. Highly
+                recommended!"
+              </p>
+            </div>
+            <div class="w-[320px] md:w-[400px] flex-shrink-0 bg-[#161616]/80 backdrop-blur-sm border border-white/5 rounded-2xl p-6 md:p-8 flex flex-col gap-5 mx-3 transition-colors hover:bg-[#161616]">
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <h4 class="text-white font-normal text-lg font-oswald tracking-wide">
+                    Robert Fox
+                  </h4>
+                  <div class="mt-2 flex items-center gap-1 text-amber-300/90" aria-label="5 out of 5 stars">
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                  </div>
+                </div>
+              </div>
+              <p class="text-white/60 text-sm font-light leading-relaxed flex-grow mt-4">
+                "The final product was outstanding! The attention to detail and
+                the creative approach really brought our vision to life."
+              </p>
+            </div>
+          </div>
+
+          <!-- Row 2 -->
+          <div class="hover:[animation-play-state:running] animate-marquee-reverse hover:[animation-play-state:paused]" style="margin-left: -200px;">
+            <!-- Set 1 -->
+            <div class="w-[320px] md:w-[400px] flex-shrink-0 bg-[#161616]/80 backdrop-blur-sm border border-white/5 rounded-2xl p-6 md:p-8 flex flex-col gap-5 mx-3 transition-colors hover:bg-[#161616]">
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <h4 class="text-white font-normal text-lg font-oswald tracking-wide">
+                    Kathryn Murphy
+                  </h4>
+                  <div class="mt-2 flex items-center gap-1 text-amber-300/90" aria-label="5 out of 5 stars">
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                  </div>
+                </div>
+              </div>
+              <p class="text-white/60 text-sm font-light leading-relaxed flex-grow mt-4">
+                "Working with Joe was an absolute pleasure. His attention to
+                detail and understanding of our business needs created a website
+                that elevated our brand significantly."
+              </p>
+            </div>
+            <div class="w-[320px] md:w-[400px] flex-shrink-0 bg-[#161616]/80 backdrop-blur-sm border border-white/5 rounded-2xl p-6 md:p-8 flex flex-col gap-5 mx-3 transition-colors hover:bg-[#161616]">
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <h4 class="text-white font-normal text-lg font-oswald tracking-wide">
+                    Guy Hawkins
+                  </h4>
+                  <div class="mt-2 flex items-center gap-1 text-amber-300/90" aria-label="5 out of 5 stars">
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                  </div>
+                </div>
+              </div>
+              <p class="text-white/60 text-sm font-light leading-relaxed flex-grow mt-4">
+                "An incredible experience from start to finish. The clean code
+                and fast performance of the site have dramatically improved our
+                user retention."
+              </p>
+            </div>
+            <div class="w-[320px] md:w-[400px] flex-shrink-0 bg-[#161616]/80 backdrop-blur-sm border border-white/5 rounded-2xl p-6 md:p-8 flex flex-col gap-5 mx-3 transition-colors hover:bg-[#161616]">
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <h4 class="text-white font-normal text-lg font-oswald tracking-wide">
+                    Cody Fisher
+                  </h4>
+                  <div class="mt-2 flex items-center gap-1 text-amber-300/90" aria-label="5 out of 5 stars">
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                  </div>
+                </div>
+              </div>
+              <p class="text-white/60 text-sm font-light leading-relaxed flex-grow mt-4">
+                "Joe's ability to translate complex requirements into an
+                intuitive, beautiful interface is unmatched. We are thrilled
+                with the results."
+              </p>
+            </div>
+            <div class="w-[320px] md:w-[400px] flex-shrink-0 bg-[#161616]/80 backdrop-blur-sm border border-white/5 rounded-2xl p-6 md:p-8 flex flex-col gap-5 mx-3 transition-colors hover:bg-[#161616]">
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <h4 class="text-white font-normal text-lg font-oswald tracking-wide">
+                    Eleanor Pena
+                  </h4>
+                  <div class="mt-2 flex items-center gap-1 text-amber-300/90" aria-label="5 out of 5 stars">
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                  </div>
+                </div>
+              </div>
+              <p class="text-white/60 text-sm font-light leading-relaxed flex-grow mt-4">
+                "The collaborative process was smooth and enjoyable. Joe guided
+                us through every step and delivered a product that exceeded our
+                expectations."
+              </p>
+            </div>
+            <!-- Set 2 (Duplicate for smooth scroll) -->
+            <div class="w-[320px] md:w-[400px] flex-shrink-0 bg-[#161616]/80 backdrop-blur-sm border border-white/5 rounded-2xl p-6 md:p-8 flex flex-col gap-5 mx-3 transition-colors hover:bg-[#161616]">
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <h4 class="text-white font-normal text-lg font-oswald tracking-wide">
+                    Kathryn Murphy
+                  </h4>
+                  <div class="mt-2 flex items-center gap-1 text-amber-300/90" aria-label="5 out of 5 stars">
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                  </div>
+                </div>
+              </div>
+              <p class="text-white/60 text-sm font-light leading-relaxed flex-grow mt-4">
+                "Working with Joe was an absolute pleasure. His attention to
+                detail and understanding of our business needs created a website
+                that elevated our brand significantly."
+              </p>
+            </div>
+            <div class="w-[320px] md:w-[400px] flex-shrink-0 bg-[#161616]/80 backdrop-blur-sm border border-white/5 rounded-2xl p-6 md:p-8 flex flex-col gap-5 mx-3 transition-colors hover:bg-[#161616]">
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <h4 class="text-white font-normal text-lg font-oswald tracking-wide">
+                    Guy Hawkins
+                  </h4>
+                  <div class="mt-2 flex items-center gap-1 text-amber-300/90" aria-label="5 out of 5 stars">
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                  </div>
+                </div>
+              </div>
+              <p class="text-white/60 text-sm font-light leading-relaxed flex-grow mt-4">
+                "An incredible experience from start to finish. The clean code
+                and fast performance of the site have dramatically improved our
+                user retention."
+              </p>
+            </div>
+            <div class="w-[320px] md:w-[400px] flex-shrink-0 bg-[#161616]/80 backdrop-blur-sm border border-white/5 rounded-2xl p-6 md:p-8 flex flex-col gap-5 mx-3 transition-colors hover:bg-[#161616]">
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <h4 class="text-white font-normal text-lg font-oswald tracking-wide">
+                    Cody Fisher
+                  </h4>
+                  <div class="mt-2 flex items-center gap-1 text-amber-300/90" aria-label="5 out of 5 stars">
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                  </div>
+                </div>
+              </div>
+              <p class="text-white/60 text-sm font-light leading-relaxed flex-grow mt-4">
+                "Joe's ability to translate complex requirements into an
+                intuitive, beautiful interface is unmatched. We are thrilled
+                with the results."
+              </p>
+            </div>
+            <div class="w-[320px] md:w-[400px] flex-shrink-0 bg-[#161616]/80 backdrop-blur-sm border border-white/5 rounded-2xl p-6 md:p-8 flex flex-col gap-5 mx-3 transition-colors hover:bg-[#161616]">
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <h4 class="text-white font-normal text-lg font-oswald tracking-wide">
+                    Eleanor Pena
+                  </h4>
+                  <div class="mt-2 flex items-center gap-1 text-amber-300/90" aria-label="5 out of 5 stars">
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                  </div>
+                </div>
+              </div>
+              <p class="text-white/60 text-sm font-light leading-relaxed flex-grow mt-4">
+                "The collaborative process was smooth and enjoyable. Joe guided
+                us through every step and delivered a product that exceeded our
+                expectations."
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="w-full bg-[#5C1616] text-[#F3EFEA] pt-32 pb-32 px-6 md:px-20 z-30 relative" id="faq">
+        <div class="mb-16 text-center">
+          <h2 class="md:text-5xl text-4xl font-normal tracking-tight font-oswald">
+            Frequently Asked Questions
+          </h2>
+        </div>
+
+        <div class="max-w-3xl mx-auto flex flex-col gap-4">
+          <!-- Item 1 -->
+          <div class="faq-item border border-[#F3EFEA]/10 rounded-2xl overflow-hidden transition-colors hover:bg-[#F3EFEA]/[0.03]">
+            <button class="faq-button w-full flex items-center gap-6 p-6 md:p-8 text-left cursor-pointer focus:outline-none">
+              <i data-lucide="chevron-down" stroke-width="1.5" class="text-[#F3EFEA]/50 w-6 h-6 transition-transform duration-500 faq-icon shrink-0"></i>
+              <span class="text-xl md:text-2xl font-normal tracking-tight font-oswald">
+                What services do you offer?
+              </span>
+            </button>
+            <div class="faq-answer grid grid-rows-[0fr] transition-[grid-template-rows] duration-500 ease-in-out">
+              <div class="overflow-hidden">
+                <div class="px-6 md:px-8 pb-6 md:pb-8 pt-0">
+                  <div class="pl-12 text-lg font-light leading-relaxed text-[#F3EFEA]/80">
+                    I specialize in comprehensive web design and development.
+                    This includes creating highly functional websites,
+                    distinctive logo designs, and implementing effective SEO
+                    &amp; GEO strategies to grow your business online.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 2 -->
+          <div class="faq-item border border-[#F3EFEA]/10 rounded-2xl overflow-hidden transition-colors hover:bg-[#F3EFEA]/[0.03]">
+            <button class="faq-button w-full flex items-center gap-6 p-6 md:p-8 text-left cursor-pointer focus:outline-none">
+              <i data-lucide="chevron-down" stroke-width="1.5" class="text-[#F3EFEA]/50 w-6 h-6 transition-transform duration-500 faq-icon shrink-0"></i>
+              <span class="text-xl md:text-2xl font-normal tracking-tight font-oswald">
+                What's your process for starting a project?
+              </span>
+            </button>
+            <div class="faq-answer grid grid-rows-[0fr] transition-[grid-template-rows] duration-500 ease-in-out">
+              <div class="overflow-hidden">
+                <div class="px-6 md:px-8 pb-6 md:pb-8 pt-0">
+                  <div class="pl-12 text-lg font-light leading-relaxed text-[#F3EFEA]/80">
+                    We begin with a discovery phase to understand your goals,
+                    target audience, and technical needs. From there, I move
+                    into wireframing and design, followed by development,
+                    testing, and a highly optimized launch.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 3 -->
+          <div class="faq-item border border-[#F3EFEA]/10 rounded-2xl overflow-hidden transition-colors hover:bg-[#F3EFEA]/[0.03]">
+            <button class="faq-button w-full flex items-center gap-6 p-6 md:p-8 text-left cursor-pointer focus:outline-none">
+              <i data-lucide="chevron-down" stroke-width="1.5" class="text-[#F3EFEA]/50 w-6 h-6 transition-transform duration-500 faq-icon shrink-0"></i>
+              <span class="text-xl md:text-2xl font-normal tracking-tight font-oswald">
+                How long does a typical project take?
+              </span>
+            </button>
+            <div class="faq-answer grid grid-rows-[0fr] transition-[grid-template-rows] duration-500 ease-in-out">
+              <div class="overflow-hidden">
+                <div class="px-6 md:px-8 pb-6 md:pb-8 pt-0">
+                  <div class="pl-12 text-lg font-light leading-relaxed text-[#F3EFEA]/80">
+                    Project timelines vary depending on complexity. A standard
+                    informational site might take 3-4 weeks, while comprehensive
+                    web applications or custom e-commerce platforms can take
+                    8-12 weeks.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="faq-item border border-[#F3EFEA]/10 rounded-2xl overflow-hidden transition-colors hover:bg-[#F3EFEA]/[0.03]">
+            <button class="faq-button w-full flex items-center gap-6 p-6 md:p-8 text-left cursor-pointer focus:outline-none">
+              <i data-lucide="chevron-down" stroke-width="1.5" class="text-[#F3EFEA]/50 w-6 h-6 transition-transform duration-500 faq-icon shrink-0"></i>
+              <span class="text-xl md:text-2xl font-normal tracking-tight font-oswald">
+                Do you offer ongoing support?
+              </span>
+            </button>
+            <div class="faq-answer grid grid-rows-[0fr] transition-[grid-template-rows] duration-500 ease-in-out">
+              <div class="overflow-hidden">
+                <div class="px-6 md:px-8 pb-6 md:pb-8 pt-0">
+                  <div class="pl-12 text-lg font-light leading-relaxed text-[#F3EFEA]/80">
+                    Yes, I offer ongoing maintenance and support packages to
+                    ensure your website remains secure, up-to-date, and
+                    optimized long after the initial launch.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="faq-item border border-[#F3EFEA]/10 rounded-2xl overflow-hidden transition-colors hover:bg-[#F3EFEA]/[0.03]">
+            <button class="faq-button w-full flex items-center gap-6 p-6 md:p-8 text-left cursor-pointer focus:outline-none">
+              <i data-lucide="chevron-down" stroke-width="1.5" class="text-[#F3EFEA]/50 w-6 h-6 transition-transform duration-500 faq-icon shrink-0"></i>
+              <span class="text-xl md:text-2xl font-normal tracking-tight font-oswald">
+                How much does a project cost?
+              </span>
+            </button>
+            <div class="faq-answer grid grid-rows-[0fr] transition-[grid-template-rows] duration-500 ease-in-out">
+              <div class="overflow-hidden">
+                <div class="px-6 md:px-8 pb-6 md:pb-8 pt-0">
+                  <div class="pl-12 text-lg font-light leading-relaxed text-[#F3EFEA]/80">
+                    Pricing depends on the scope, complexity, and specific
+                    requirements of your project. We can discuss your needs in
+                    detail during our initial consultation to provide a tailored
+                    quote.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Outro Section -->
+      <section class="py-32 bg-[#F3EFEA] text-center flex flex-col items-center justify-center relative z-30">
+        <h2 class="text-3xl md:text-4xl font-normal tracking-tight mb-6 font-oswald">
+          Built for your success.
+        </h2>
+        <div class="max-w-md text-base font-light text-[#5C1616]/70 mb-12 leading-relaxed">
+          Crafting tailored digital experiences designed to engage your audience
+          and elevate your brand.
+        </div>
+        <div class="flex gap-8 text-[#5C1616]/40">
+          <i data-lucide="palette" stroke-width="1.5" class="w-8 h-8"></i>
+          <i data-lucide="layout" stroke-width="1.5" class="w-8 h-8"></i>
+          <i data-lucide="monitor-smartphone" stroke-width="1.5" class="w-8 h-8"></i>
+        </div>
+      </section>
+      <div id="contact" class="absolute left-0 w-full h-px pointer-events-none" style="bottom: -100vh;"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="fixed bottom-0 left-0 w-full h-screen z-1 bg-[#5C1616] text-[#F3EFEA] flex flex-col justify-center items-center footer-sticky">
+      <div class="flex flex-col text-center w-full h-full bg-[url(https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/bc24ae30-0309-4936-9bef-83fab625a439_3840w.png?w=800&amp;q=80)] bg-cover bg-center z-10 pr-6 pl-6 relative items-center justify-center bg-black/60 bg-blend-multiply">
+        <div class="text-sm md:text-base uppercase tracking-widest font-normal mb-4 text-[#F3EFEA]/60">
+          Have a project in mind?
+        </div>
+        <a href="mailto:youssefredha209@gmail.com" class="block text-[16vw] md:text-[12vw] leading-none font-normal tracking-tighter hover:text-[#F3EFEA]/70 transition-colors font-oswald whitespace-nowrap">
+          LET'S TALK
+        </a>
+        <div class="flex justify-center gap-6 uppercase font-normal text-xs mt-6 text-[#F3EFEA]/60 w-full">
+          <a href="https://wa.me/message/TXL6T3IUF2GBJ1" class="hover:text-[#F3EFEA] transition-colors" target="_blank">
+            WhatsApp
+          </a>
+          <a href="https://www.instagram.com/cvoq.1/" class="hover:text-[#F3EFEA] transition-colors" target="_blank">
+            Instagram
+          </a>
+        </div>
+
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col md:flex-row justify-between items-center gap-4 md:gap-6 text-sm font-light tracking-wide text-[#F3EFEA]/60 w-full max-w-7xl mx-auto px-6">
+          <div>© 2024 Joe. All rights reserved.</div>
+
+          <div>Dubai, UAE</div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      gsap.registerPlugin(ScrollTrigger);
+      lucide.createIcons();
+
+      // Lenis Smooth Scroll
+      const lenis = new Lenis({
+          duration: 1.2,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          direction: 'vertical',
+          smooth: true,
+      });
+      function raf(time) {
+          lenis.raf(time);
+          requestAnimationFrame(raf);
+      }
+      requestAnimationFrame(raf);
+
+      // Fix for Anchor Links
+      document.querySelectorAll('.nav-link, a[href^="#"]').forEach(anchor => {
+          anchor.addEventListener('click', function (e) {
+              const targetId = this.getAttribute('href');
+              if (targetId === '#') {
+                  e.preventDefault();
+                  return;
+              }
+              const targetElement = document.querySelector(targetId);
+              if (targetElement) {
+                  e.preventDefault();
+                  lenis.scrollTo(targetElement, { offset: -50, duration: 1.5 });
+              }
+          });
+      });
+
+      // Text Splitter Utility
+      function splitTextToWords(element) {
+          const text = element.innerText.trim();
+          const words = text.split(/\s+/);
+          element.innerHTML = '';
+          words.forEach(word => {
+              const wordWrap = document.createElement('span');
+              wordWrap.classList.add('word-wrap');
+              wordWrap.innerHTML = `<span class="word-inner">${word}&nbsp;</span>`;
+              element.appendChild(wordWrap);
+          });
+      }
+
+      document.querySelectorAll('.split-animate').forEach(el => {
+          splitTextToWords(el);
+      });
+
+      // Loader Sequence
+      function runLoader() {
+          const loadTl = gsap.timeline({
+              onComplete: () => {
+                  initSite();
+              }
+          });
+
+          loadTl.to('.loader-text', { opacity: 0, duration: 0.8, delay: 0.5, ease: 'power2.inOut' })
+                .to('.loader', { yPercent: -100, duration: 1.2, ease: 'power4.inOut' })
+                .set('.loader', { display: 'none' });
+      }
+
+      if (document.readyState === 'complete') {
+          runLoader();
+      } else {
+          window.addEventListener('load', runLoader);
+      }
+
+      function initSite() {
+          // Header Reveal
+          gsap.from('header', { y: -50, opacity: 0, duration: 1.5, ease: 'power4.out', delay: 0.2 });
+
+          // Hero Animation
+          gsap.to('.hero-text span', {
+              y: 0,
+              stagger: 0.15,
+              duration: 1.5,
+              ease: 'power4.out'
+          });
+          gsap.to('.hero-fade', { opacity: 1, y: 0, duration: 1.5, delay: 0.6, stagger: 0.2, ease: 'power3.out', startAt: {y: 20} });
+
+          // Background Parallax for Hero
+          const heroSec = document.querySelector('.hero-text').closest('section');
+          if(heroSec) {
+              gsap.to(heroSec, {
+                  backgroundPosition: "50% 100%",
+                  ease: "none",
+                  scrollTrigger: {
+                      trigger: heroSec,
+                      start: "top top",
+                      end: "bottom top",
+                      scrub: true
+                  }
+              });
+          }
+
+          // Text Reveal on Scroll
+          const splitElements = document.querySelectorAll('.split-animate');
+          splitElements.forEach(el => {
+              const words = el.querySelectorAll('.word-inner');
+              gsap.to(words, {
+                  y: "0%",
+                  duration: 1,
+                  ease: "power4.out",
+                  stagger: 0.02,
+                  scrollTrigger: {
+                      trigger: el,
+                      start: "top 85%",
+                      toggleActions: "play none none reverse"
+                  }
+              });
+          });
+
+          // Intro links reveal
+          const introLinks = document.querySelectorAll('.nav-link[href="#services"]');
+          if(introLinks.length) {
+              gsap.from(introLinks, {
+                  y: 20, opacity: 0, duration: 1, stagger: 0.1, ease: 'power3.out',
+                  scrollTrigger: {
+                      trigger: introLinks[0].closest('div'),
+                      start: "top 90%",
+                      toggleActions: "play none none reverse"
+                  }
+              });
+          }
+
+          // Services Card Stack Effect
+          const cards = gsap.utils.toArray('.card-item');
+          cards.forEach((card, i) => {
+              const nextCard = cards[i+1];
+              if (nextCard) {
+                  gsap.to(card.querySelector('.card-inner'), {
+                      scale: 0.92,
+                      filter: "brightness(0.6)",
+                      ease: "none",
+                      scrollTrigger: {
+                          trigger: nextCard,
+                          start: "top bottom",
+                          end: "top 15vh",
+                          scrub: true
+                      }
+                  });
+              }
+
+              // Image Parallax within Card
+              const img = card.querySelector('img');
+              if (img) {
+                  gsap.fromTo(img,
+                      { scale: 1.15, yPercent: -5 },
+                      { scale: 1, yPercent: 5, ease: "none", scrollTrigger: {
+                          trigger: card,
+                          start: "top bottom",
+                          end: "bottom top",
+                          scrub: true
+                      }}
+                  );
+              }
+          });
+
+          // Section Titles Fade Up
+          const sectionTitles = gsap.utils.toArray('h2:not(.split-animate)');
+          sectionTitles.forEach(title => {
+              gsap.from(title, {
+                  y: 40,
+                  opacity: 0,
+                  duration: 1.2,
+                  ease: 'power3.out',
+                  scrollTrigger: {
+                      trigger: title,
+                      start: 'top 85%',
+                      toggleActions: 'play none none reverse'
+                  }
+              });
+          });
+
+          // Service Items Fade Up
+          gsap.utils.toArray('.card-inner ul li').forEach(li => {
+             gsap.from(li, {
+                 x: -15, opacity: 0, duration: 0.8, ease: 'power3.out',
+                 scrollTrigger: {
+                     trigger: li,
+                     start: 'top 90%',
+                     toggleActions: 'play none none reverse'
+                 }
+             });
+          });
+
+          // Marquee Fade Up
+          gsap.from('.animate-marquee, .animate-marquee-reverse', {
+              opacity: 0,
+              y: 30,
+              duration: 1.5,
+              stagger: 0.2,
+              ease: 'power3.out',
+              scrollTrigger: {
+                  trigger: '#reviews',
+                  start: 'top 75%',
+                  toggleActions: 'play none none reverse'
+              }
+          });
+
+          // Outro Section Animations
+          const outroIcons = document.querySelectorAll('i[data-lucide="palette"], i[data-lucide="layout"]');
+          if(outroIcons.length) {
+              gsap.from(outroIcons[0].closest('div').children, {
+                  y: 30, opacity: 0, duration: 1, stagger: 0.15, ease: 'power3.out',
+                  scrollTrigger: {
+                      trigger: outroIcons[0].closest('section'),
+                      start: 'top 80%',
+                      toggleActions: "play none none reverse"
+                  }
+              });
+          }
+
+          // FAQ Stagger
+          gsap.from('.faq-item', {
+              y: 30,
+              opacity: 0,
+              duration: 1,
+              stagger: 0.1,
+              ease: 'power3.out',
+              scrollTrigger: {
+                  trigger: '#faq',
+                  start: 'top 75%',
+                  toggleActions: 'play none none reverse'
+              }
+          });
+
+          // 3D Slider Entering Anim
+          const sliderContainer = document.querySelector('#work > div:last-child');
+          if(sliderContainer) {
+              gsap.from(sliderContainer, {
+                  y: 50, opacity: 0, duration: 1.5, ease: 'power4.out',
+                  scrollTrigger: {
+                      trigger: '#work',
+                      start: 'top 60%',
+                      toggleActions: "play none none reverse"
+                  }
+              });
+          }
+
+          const slides = document.querySelectorAll('.slider-item');
+          let currentSlide = 0;
+          let isAnimating = false;
+
+          function updateSlider() {
+              slides.forEach((slide, index) => {
+                  const overlay = slide.querySelector('.slider-overlay');
+                  const navs = slide.querySelectorAll('.slider-nav');
+
+                  slide.style.zIndex = '10';
+                  slide.style.opacity = '0';
+                  slide.style.pointerEvents = 'none';
+                  slide.style.transform = 'translateZ(-400px)';
+
+                  if(overlay) {
+                      overlay.style.opacity = '0';
+                      overlay.style.pointerEvents = 'none';
+                      overlay.style.transform = 'translateY(20px) translateX(-50%)';
+                  }
+                  navs.forEach(nav => {
+                      nav.style.opacity = '0';
+                      nav.style.pointerEvents = 'none';
+                  });
+
+                  const isMobile = window.innerWidth < 768;
+                  const xOffset = isMobile ? '60%' : '50%';
+                  const zOffset = isMobile ? '-200px' : '-250px';
+                  const rotY = isMobile ? '20deg' : '30deg';
+
+                  if (index === currentSlide) {
+                      slide.style.zIndex = '30';
+                      slide.style.opacity = '1';
+                      slide.style.pointerEvents = 'auto';
+                      slide.style.transform = 'translateX(0) translateZ(0) rotateY(0)';
+                      slide.style.filter = 'brightness(1)';
+
+                      if(overlay) {
+                          overlay.style.opacity = '1';
+                          overlay.style.pointerEvents = 'auto';
+                          overlay.style.transform = 'translateY(0) translateX(-50%)';
+                      }
+                      navs.forEach(nav => {
+                          nav.style.opacity = '1';
+                          nav.style.pointerEvents = 'auto';
+                      });
+
+                  } else if (index === (currentSlide - 1 + slides.length) % slides.length) {
+                      slide.style.zIndex = '20';
+                      slide.style.opacity = '0.4';
+                      slide.style.pointerEvents = 'auto';
+                      slide.style.transform = `translateX(-${xOffset}) translateZ(${zOffset}) rotateY(${rotY})`;
+                      slide.style.filter = 'brightness(0.5)';
+
+                  } else if (index === (currentSlide + 1) % slides.length) {
+                      slide.style.zIndex = '20';
+                      slide.style.opacity = '0.4';
+                      slide.style.pointerEvents = 'auto';
+                      slide.style.transform = `translateX(${xOffset}) translateZ(${zOffset}) rotateY(-${rotY})`;
+                      slide.style.filter = 'brightness(0.5)';
+                  }
+              });
+
+              setTimeout(() => { isAnimating = false; }, 800);
+          }
+
+          slides.forEach((slide, index) => {
+              slide.addEventListener('click', (e) => {
+                  if (isAnimating || e.target.closest('.slider-nav') || e.target.closest('.slider-overlay')) return;
+                  if (index !== currentSlide) {
+                      isAnimating = true;
+                      currentSlide = index;
+                      updateSlider();
+                  }
+              });
+          });
+
+          document.querySelectorAll('.prev-btn').forEach(btn => {
+              btn.addEventListener('click', (e) => {
+                  e.stopPropagation();
+                  if (isAnimating) return;
+                  isAnimating = true;
+                  currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+                  updateSlider();
+              });
+          });
+
+          document.querySelectorAll('.next-btn').forEach(btn => {
+              btn.addEventListener('click', (e) => {
+                  e.stopPropagation();
+                  if (isAnimating) return;
+                  isAnimating = true;
+                  currentSlide = (currentSlide + 1) % slides.length;
+                  updateSlider();
+              });
+          });
+
+          window.addEventListener('resize', () => {
+              if(!isAnimating) updateSlider();
+          });
+
+          updateSlider();
+
+          // Footer Parallax
+          gsap.from('.footer-sticky > div', {
+              y: 80,
+              opacity: 0,
+              scale: 0.95,
+              scrollTrigger: {
+                  trigger: '.footer-sticky',
+                  start: 'top bottom',
+                  end: 'bottom bottom',
+                  scrub: true
+              }
+          });
+
+          // FAQ Accordion
+          document.querySelectorAll('.faq-button').forEach(button => {
+              button.addEventListener('click', () => {
+                  const item = button.closest('.faq-item');
+                  const answer = item.querySelector('.faq-answer');
+                  const icon = item.querySelector('.faq-icon');
+                  const isOpen = answer.classList.contains('grid-rows-[1fr]');
+
+                  document.querySelectorAll('.faq-answer').forEach(ans => {
+                      ans.classList.remove('grid-rows-[1fr]');
+                      ans.classList.add('grid-rows-[0fr]');
+                  });
+                  document.querySelectorAll('.faq-icon').forEach(ic => {
+                      ic.classList.remove('rotate-180');
+                  });
+
+                  if (!isOpen) {
+                      answer.classList.remove('grid-rows-[0fr]');
+                      answer.classList.add('grid-rows-[1fr]');
+                      icon.classList.add('rotate-180');
+                  }
+              });
+          });
+      }
+    </script>
+  
+</body></html>
